@@ -5,6 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - name: Set current date
+        run: echo "CURRENT_DATE=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
         continue-on-error: true # To make sure that SARIF upload gets called
@@ -17,3 +19,8 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: snyk.sarif
+      - name: Create zip
+        uses: ihiroky/archive-action@v1
+        with:
+          root_dir: generated-zip
+          file_path: security-threads-${{ env.CURRENT_DATE }}.zip
