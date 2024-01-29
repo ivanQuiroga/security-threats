@@ -1,20 +1,8 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
-const csurf = require('csurf');
 const app = express();
 const PORT = 8080;
 const exec = require('child_process').exec;
-
-const session = require('express-session');
-app.use(session({
-  secret: 'tu_secreto',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
-}));
-// Protección CSRF
-app.use(csurf());
-// Añadir el token CSRF a las vistas locales
 
 const rateLimit = require('express-rate-limit');
 
